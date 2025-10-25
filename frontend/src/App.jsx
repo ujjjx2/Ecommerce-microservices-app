@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import ProductList from './pages/ProductList';
 import Cart from './pages/Cart';
 import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -38,6 +39,7 @@ function App() {
           <Route path="/" element={<ProductList addToCart={addToCart} />} />
           <Route path="/cart" element={<Cart cart={cart} updateQuantity={updateQuantity} />} />
           <Route path="/login" element={<Login setUser={setUser} />} />
+          <Route path="/register" element={<Register setUser={setUser} />} />
         </Routes>
       </div>
     </Router>
