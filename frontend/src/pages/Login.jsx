@@ -21,7 +21,7 @@ export default function Login({ setUser }) {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-md">
-      <h1 className="text-3xl font-bold mb-6">Login</h1>
+      <h1 className="text-4xl font-bold mb-8 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Login</h1>
       <form onSubmit={handleLogin} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
         {error && <p className="text-red-500 dark:text-red-400 mb-4">{error}</p>}
         <div className="mb-4">

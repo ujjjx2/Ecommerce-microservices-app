@@ -56,7 +56,7 @@ export default function Register({ setUser }) {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-md">
-      <h1 className="text-3xl font-bold mb-6">Create an Account</h1>
+      <h1 className="text-4xl font-bold mb-8 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Create an Account</h1>
       <form onSubmit={handleRegister} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
         {error && (
           <div className="bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-500 text-red-700 dark:text-red-300 px-4 py-3 rounded mb-4">
