@@ -1,6 +1,8 @@
 package com.ecommerce.user.service;
 
 import com.ecommerce.user.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -13,6 +15,9 @@ public class UserService {
     private final Map<Long, User> users = new ConcurrentHashMap<>();
     private final Map<String, Long> emailToUserId = new ConcurrentHashMap<>();
     private final AtomicLong idCounter = new AtomicLong(1);
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public List<User> getAllUsers() {
         return new ArrayList<>(users.values());
@@ -36,6 +41,7 @@ public class UserService {
         
         Long id = idCounter.getAndIncrement();
         user.setId(id);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setCreatedAt(LocalDateTime.now());
         
         users.put(id, user);
@@ -46,7 +52,7 @@ public class UserService {
 
     public Optional<User> loginUser(String email, String password) {
         return getUserByEmail(email)
-                .filter(user -> user.getPassword().equals(password));
+                .filter(user -> passwordEncoder.matches(password, user.getPassword()));
     }
 
     public Optional<User> updateUser(Long id, User user) {

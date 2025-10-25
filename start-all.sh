@@ -2,6 +2,23 @@
 
 echo "Starting E-commerce Microservices Platform..."
 
+# Function to build service if JAR doesn't exist
+build_if_needed() {
+    local service_path=$1
+    local jar_name=$2
+    
+    if [ ! -f "$service_path/target/$jar_name" ]; then
+        echo "Building $service_path..."
+        (cd $service_path && mvn clean package -DskipTests)
+    fi
+}
+
+# Build services if needed
+build_if_needed "backend/product-service" "product-service-1.0.0.jar"
+build_if_needed "backend/order-service" "order-service-1.0.0.jar"
+build_if_needed "backend/user-service" "user-service-1.0.0.jar"
+build_if_needed "backend/api-gateway" "api-gateway-1.0.0.jar"
+
 echo "Starting Product Service on port 8081..."
 (cd backend/product-service && java -jar target/product-service-1.0.0.jar) &
 
