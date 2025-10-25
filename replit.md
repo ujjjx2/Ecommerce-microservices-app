@@ -5,6 +5,19 @@ A full-stack e-commerce platform built with Java Spring Boot microservices on th
 
 ## Recent Changes
 
+### October 25, 2025 - AI Product Recommendations with Gemini
+- **AI-Powered Analysis**: Added Google Gemini AI integration to provide intelligent product recommendations
+- **Secure Backend Implementation**: AI service runs on backend to keep API keys secure (never exposed to client)
+- **Smart Product Insights**: Each product has a "Get AI Recommendation" button that triggers AI analysis
+- **Comprehensive Analysis**: AI provides:
+  - Brief product summary
+  - List of pros (positive aspects)
+  - List of cons (areas for improvement)
+  - Personalized recommendation on who should buy the product
+- **Beautiful Modal UI**: Professional modal design with color-coded sections for summary, pros, cons, and recommendations
+- **Error Handling**: Graceful error handling with user-friendly messages if AI service is unavailable
+- **Production-Ready**: Uses Gemini 2.5 Flash model via secure backend endpoint at `/api/products/{id}/ai-recommendation`
+
 ### October 25, 2025 - Real Product Data Integration
 - **DummyJSON API Integration**: Backend now fetches real product data from DummyJSON API on startup
 - **Enhanced Product Model**: Added `brand`, `rating`, and `images` fields to support rich product information
@@ -44,7 +57,7 @@ A full-stack e-commerce platform built with Java Spring Boot microservices on th
 ## Architecture
 
 ### Backend Microservices (Java Spring Boot 3.2.0)
-- **Product Service** (Port 8081): Manages product catalog with CRUD operations
+- **Product Service** (Port 8081): Manages product catalog with CRUD operations and AI recommendations
 - **Order Service** (Port 8082): Handles order creation and management
 - **User Service** (Port 8083): Manages user registration, authentication, and profiles
 - **API Gateway** (Port 8080): Routes all client requests to appropriate microservices
