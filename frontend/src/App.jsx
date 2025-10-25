@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import ProductList from './pages/ProductList';
 import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
@@ -48,6 +49,10 @@ function App() {
     setDarkMode(!darkMode);
   };
 
+  const clearCart = () => {
+    setCart([]);
+  };
+
   return (
     <Router>
       <div className={`min-h-screen transition-colors duration-300 ${darkMode ? 'dark' : ''}`}>
@@ -61,6 +66,7 @@ function App() {
           <Routes>
             <Route path="/" element={<ProductList addToCart={addToCart} />} />
             <Route path="/cart" element={<Cart cart={cart} updateQuantity={updateQuantity} />} />
+            <Route path="/checkout" element={<Checkout cart={cart} clearCart={clearCart} />} />
             <Route path="/login" element={<Login setUser={setUser} />} />
             <Route path="/register" element={<Register setUser={setUser} />} />
           </Routes>
