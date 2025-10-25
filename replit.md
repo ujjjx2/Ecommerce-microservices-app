@@ -5,6 +5,28 @@ A full-stack e-commerce platform built with Java Spring Boot microservices on th
 
 ## Recent Changes
 
+### October 25, 2025 - Cart & Checkout Page Redesign
+- **Modern Cart UI**: Complete redesign of the cart page with dark mode support
+  - Glass-morphism effects with backdrop blur and gradient borders
+  - Beautiful gradient price tags and animated badges
+  - Product images with fallback icons
+  - Enhanced quantity controls with icon buttons
+  - Sticky order summary sidebar with tax calculation
+  - Empty cart state with attractive messaging and call-to-action
+  - "Continue Shopping" and "Proceed to Checkout" buttons
+- **Checkout Page Created**: Full-featured checkout flow with order completion
+  - Contact information section with email validation
+  - Comprehensive shipping address form (name, address, city, state, ZIP)
+  - Payment details section (card number, cardholder name, expiry, CVV)
+  - Order summary sidebar showing all cart items
+  - Real-time total calculation (subtotal + tax)
+  - Security badges (SSL encryption, money-back guarantee)
+  - Form validation with required fields
+  - Order placement with cart clearing on success
+- **Seamless Navigation**: Proper routing between cart and checkout pages
+- **Consistent Design**: Both pages follow the modern gradient/glass aesthetic
+- **Full Dark Mode Support**: Beautiful dark theme for both cart and checkout pages
+
 ### October 25, 2025 - AI Product Recommendations with Gemini
 - **AI-Powered Analysis**: Added Google Gemini AI integration to provide intelligent product recommendations
 - **Secure Backend Implementation**: AI service runs on backend to keep API keys secure (never exposed to client)
