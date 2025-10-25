@@ -1,11 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { productService } from '../services/api';
 
 export default function ProductList({ addToCart }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
+  const fetchProducts = useCallback(() => {
+    setLoading(true);
+    setError(null);
     productService.getAll()
       .then(res => {
         setProducts(res.data);
@@ -13,12 +16,41 @@ export default function ProductList({ addToCart }) {
       })
       .catch(err => {
         console.error('Error fetching products:', err);
+        setError('Failed to load products. Please try again.');
         setLoading(false);
       });
   }, []);
 
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
+
   if (loading) {
-    return <div className="container mx-auto px-4 py-8">Loading products...</div>;
+    return (
+      <div className="container mx-auto px-4 py-8 text-center">
+        <div className="text-xl text-gray-600">Loading products...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-8 text-center">
+        <div className="bg-red-50 border border-red-200 rounded-lg p-8 max-w-md mx-auto">
+          <svg className="w-16 h-16 text-red-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <h2 className="text-xl font-semibold text-gray-800 mb-2">Oops! Something went wrong</h2>
+          <p className="text-gray-600 mb-4">{error}</p>
+          <button
+            onClick={fetchProducts}
+            className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition duration-200"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
   }
 
   const renderStars = (rating) => {
