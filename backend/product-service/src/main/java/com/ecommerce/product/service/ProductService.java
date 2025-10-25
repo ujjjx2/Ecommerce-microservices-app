@@ -1,7 +1,10 @@
 package com.ecommerce.product.service;
 
 import com.ecommerce.product.model.Product;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -13,18 +16,56 @@ import java.util.stream.Collectors;
 public class ProductService {
     private final Map<Long, Product> products = new ConcurrentHashMap<>();
     private final AtomicLong idCounter = new AtomicLong(1);
+    private final RestTemplate restTemplate = new RestTemplate();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public ProductService() {
-        initializeSampleProducts();
+        initializeProductsFromAPI();
     }
 
-    private void initializeSampleProducts() {
-        createProduct(new Product(null, "Laptop", "High-performance laptop", new BigDecimal("999.99"), "Electronics", 10, "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400"));
-        createProduct(new Product(null, "Smartphone", "Latest smartphone model", new BigDecimal("699.99"), "Electronics", 25, "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400"));
-        createProduct(new Product(null, "Headphones", "Wireless noise-canceling headphones", new BigDecimal("199.99"), "Electronics", 50, "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400"));
-        createProduct(new Product(null, "Running Shoes", "Comfortable running shoes", new BigDecimal("89.99"), "Sports", 40, "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"));
-        createProduct(new Product(null, "Backpack", "Durable travel backpack", new BigDecimal("59.99"), "Accessories", 30, "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400"));
-        createProduct(new Product(null, "Water Bottle", "Insulated water bottle", new BigDecimal("24.99"), "Sports", 100, "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400"));
+    private void initializeProductsFromAPI() {
+        try {
+            String apiUrl = "https://dummyjson.com/products?limit=30";
+            String response = restTemplate.getForObject(apiUrl, String.class);
+            JsonNode root = objectMapper.readTree(response);
+            JsonNode productsNode = root.get("products");
+
+            if (productsNode != null && productsNode.isArray()) {
+                for (JsonNode productNode : productsNode) {
+                    Product product = new Product();
+                    product.setId(productNode.get("id").asLong());
+                    product.setName(productNode.get("title").asText());
+                    product.setDescription(productNode.get("description").asText());
+                    product.setPrice(new BigDecimal(productNode.get("price").asText()));
+                    product.setCategory(productNode.get("category").asText());
+                    product.setStock(productNode.get("stock").asInt());
+                    product.setBrand(productNode.get("brand") != null ? productNode.get("brand").asText() : "Generic");
+                    product.setRating(productNode.get("rating") != null ? productNode.get("rating").asDouble() : 0.0);
+                    
+                    List<String> images = new ArrayList<>();
+                    JsonNode imagesNode = productNode.get("images");
+                    if (imagesNode != null && imagesNode.isArray()) {
+                        imagesNode.forEach(img -> images.add(img.asText()));
+                    }
+                    product.setImages(images);
+                    product.setImageUrl(images.isEmpty() ? null : images.get(0));
+
+                    products.put(product.getId(), product);
+                    if (product.getId() >= idCounter.get()) {
+                        idCounter.set(product.getId() + 1);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to load products from API: " + e.getMessage());
+            initializeFallbackProducts();
+        }
+    }
+
+    private void initializeFallbackProducts() {
+        createProduct(new Product(null, "Laptop", "High-performance laptop", new BigDecimal("999.99"), "Electronics", 10, "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400", "Generic", 4.5, Arrays.asList("https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400")));
+        createProduct(new Product(null, "Smartphone", "Latest smartphone model", new BigDecimal("699.99"), "Electronics", 25, "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400", "Generic", 4.7, Arrays.asList("https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400")));
+        createProduct(new Product(null, "Headphones", "Wireless noise-canceling headphones", new BigDecimal("199.99"), "Electronics", 50, "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400", "Generic", 4.3, Arrays.asList("https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400")));
     }
 
     public List<Product> getAllProducts() {
