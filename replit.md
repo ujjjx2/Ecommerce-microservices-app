@@ -5,6 +5,18 @@ A full-stack e-commerce platform built with Java Spring Boot microservices on th
 
 ## Recent Changes
 
+### October 25, 2025 - Registration Feature & API Proxy Setup
+- **Registration Page Added**: Created complete user registration page with form validation
+- **Navigation Updated**: Added "Sign Up" button to header navigation bar
+- **API Proxy Configured**: Set up Vite proxy to forward `/api` requests to backend (localhost:8080)
+- **Registration Features**:
+  - Name, email, password fields with validation
+  - Password confirmation matching
+  - Minimum 6-character password requirement
+  - Duplicate email detection
+  - Auto-login after successful registration
+  - Secure BCrypt password hashing on backend
+
 ### October 25, 2025 - Project Import Completed
 - **Migration Complete**: Successfully migrated E-commerce platform to Replit environment
 - **Dependencies Installed**: All frontend packages (React, Vite, Tailwind CSS, Axios) installed via npm

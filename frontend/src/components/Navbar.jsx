@@ -17,9 +17,12 @@ export default function Navbar({ cartCount, user }) {
               )}
             </Link>
             {user ? (
-              <span className="hover:text-blue-200">Hello, {user.firstName}</span>
+              <span className="hover:text-blue-200">Hello, {user.name}</span>
             ) : (
-              <Link to="/login" className="hover:text-blue-200">Login</Link>
+              <>
+                <Link to="/login" className="hover:text-blue-200">Login</Link>
+                <Link to="/register" className="hover:text-blue-200 bg-blue-700 px-4 py-2 rounded">Sign Up</Link>
+              </>
             )}
           </div>
         </div>
