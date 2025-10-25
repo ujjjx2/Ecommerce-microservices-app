@@ -24,7 +24,8 @@ public class AIRecommendationService {
 
     public Map<String, Object> analyzeProduct(Product product) throws Exception {
         if (apiKey == null || apiKey.isEmpty()) {
-            throw new IllegalStateException("GEMINI_API_KEY environment variable is not set");
+            System.err.println("ERROR: GEMINI_API_KEY environment variable is not set");
+            throw new IllegalStateException("AI recommendation service is not configured");
         }
 
         String prompt = String.format(
@@ -93,21 +94,27 @@ public class AIRecommendationService {
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
         if (response.statusCode() != 200) {
-            throw new RuntimeException("Gemini API request failed with status: " + response.statusCode() + ", body: " + response.body());
+            System.err.println("ERROR: Gemini API request failed with status: " + response.statusCode());
+            System.err.println("Response body: " + response.body());
+            throw new RuntimeException("AI recommendation service is temporarily unavailable");
         }
 
         Map<String, Object> responseData = objectMapper.readValue(response.body(), Map.class);
         
         List<Map<String, Object>> candidates = (List<Map<String, Object>>) responseData.get("candidates");
         if (candidates == null || candidates.isEmpty()) {
-            throw new RuntimeException("No candidates in Gemini response");
+            System.err.println("ERROR: No candidates in Gemini response");
+            System.err.println("Full response: " + responseData);
+            throw new RuntimeException("AI recommendation service returned an invalid response");
         }
 
         Map<String, Object> content = (Map<String, Object>) candidates.get(0).get("content");
         List<Map<String, Object>> parts = (List<Map<String, Object>>) content.get("parts");
         
         if (parts == null || parts.isEmpty()) {
-            throw new RuntimeException("No parts in Gemini response");
+            System.err.println("ERROR: No parts in Gemini response");
+            System.err.println("Full response: " + responseData);
+            throw new RuntimeException("AI recommendation service returned an invalid response");
         }
 
         String jsonText = (String) parts.get(0).get("text");

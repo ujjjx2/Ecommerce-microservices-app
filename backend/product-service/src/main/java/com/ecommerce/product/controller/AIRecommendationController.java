@@ -26,9 +26,15 @@ public class AIRecommendationController {
                     try {
                         Map<String, Object> recommendation = aiRecommendationService.analyzeProduct(product);
                         return ResponseEntity.ok(recommendation);
+                    } catch (IllegalStateException e) {
+                        System.err.println("AI service configuration error for product " + id + ": " + e.getMessage());
+                        return ResponseEntity.status(503)
+                                .body(Map.of("error", "AI recommendation service is currently unavailable"));
                     } catch (Exception e) {
+                        System.err.println("AI recommendation error for product " + id + ": " + e.getMessage());
+                        e.printStackTrace();
                         return ResponseEntity.status(500)
-                                .body(Map.of("error", "Failed to generate AI recommendation: " + e.getMessage()));
+                                .body(Map.of("error", "Unable to generate AI recommendation at this time"));
                     }
                 })
                 .orElse(ResponseEntity.notFound().build());
