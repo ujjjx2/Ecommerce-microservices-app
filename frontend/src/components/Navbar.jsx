@@ -57,7 +57,7 @@ export default function Navbar({ cartCount, user, darkMode, toggleDarkMode }) {
               )}
             </button>
 
-            {user ? (
+            {user && user.name ? (
               <div className="flex items-center gap-2 text-gray-700 dark:text-gray-300">
                 <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold">
                   {user.name.charAt(0).toUpperCase()}
