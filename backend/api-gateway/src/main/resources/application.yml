@@ -9,7 +9,10 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOriginPatterns: "*"
+            allowedOrigins:
+              - "https://ecommerce-microservices-app.onrender.com"
+              - "http://localhost:5000"
+              - "http://127.0.0.1:5000"
             allowedMethods:
               - GET
               - POST
