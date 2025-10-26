@@ -20,9 +20,28 @@ Set this environment variable in your Frontend service on Render:
 VITE_API_URL=https://api-gateway-70ls.onrender.com
 ```
 
-## Individual Microservices
+## Product Service
 
-No additional environment variables are required for the individual microservices (Product, Order, User).
+**CRITICAL**: The Product Service requires the Gemini API key for AI recommendations:
+
+```
+GEMINI_API_KEY=your_gemini_api_key_here
+```
+
+**How to add on Render:**
+1. Go to your Product Service in Render dashboard
+2. Navigate to **Environment** tab
+3. Click **Add Environment Variable**
+4. Set Key: `GEMINI_API_KEY`
+5. Set Value: Your actual Gemini API key (starts with `AIza...`)
+6. Click **Save Changes**
+7. Render will automatically redeploy with the new environment variable
+
+**Get your API key:** https://aistudio.google.com/apikey
+
+## Order and User Services
+
+No additional environment variables are required for Order and User services.
 They only need the `PORT` environment variable, which Render sets automatically.
 
 ## Local Development
@@ -36,6 +55,7 @@ For local development in Replit:
 
 ### 1. Deploy Individual Microservices First
 - [ ] Deploy Product Service to Render
+  - [ ] **IMPORTANT**: Set `GEMINI_API_KEY` environment variable in Product Service
 - [ ] Deploy Order Service to Render  
 - [ ] Deploy User Service to Render
 - [ ] Verify each service is running and accessible
