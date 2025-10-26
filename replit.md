@@ -5,6 +5,13 @@ A full-stack e-commerce platform built with Java Spring Boot microservices on th
 
 ## Recent Changes
 
+### October 26, 2025 - AI Service Fix for Production
+- **Fixed Frontend API Calls**: Updated `gemini.js` to use configured axios instance with proper base URL
+- **Production Environment File**: Created `.env.production` with API Gateway URL
+- **API Key Configuration**: Backend now checks both `GOOGLE_API_KEY` and `GEMINI_API_KEY` environment variables
+- **Health Check Endpoint**: Added `/api/products/ai/health` to verify API key configuration
+- **Debugging Tools**: Added startup logging to show API key status (without exposing the key)
+
 ### October 26, 2025 - Render Deployment Configuration
 - **Environment-Aware Configuration**: API Gateway now uses environment variables with intelligent defaults
   - Local development: Routes to localhost services (http://localhost:8081, 8082, 8083)

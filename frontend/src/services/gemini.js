@@ -1,10 +1,10 @@
-import axios from 'axios';
+import { api } from './api';
 
 // AI recommendation service that calls the backend endpoint
 // This keeps the Gemini API key secure on the server side
 export async function analyzeProduct(product) {
   try {
-    const response = await axios.get(`/api/products/${product.id}/ai-recommendation`);
+    const response = await api.get(`/api/products/${product.id}/ai-recommendation`);
     return response.data;
   } catch (error) {
     console.error('Error analyzing product:', error);

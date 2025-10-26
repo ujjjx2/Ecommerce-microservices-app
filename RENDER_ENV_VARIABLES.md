@@ -20,6 +20,8 @@ Set this environment variable in your Frontend service on Render:
 VITE_API_URL=https://api-gateway-70ls.onrender.com
 ```
 
+**Note**: This environment variable is also set in `frontend/.env.production` file for build-time configuration.
+
 ## Product Service
 
 **CRITICAL**: The Product Service requires the Gemini API key for AI recommendations:
