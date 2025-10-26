@@ -1,5 +1,5 @@
 com/ecommerce/user/model/User.class
-com/ecommerce/user/service/UserService.class
 com/ecommerce/user/UserServiceApplication.class
+com/ecommerce/user/service/UserService.class
 com/ecommerce/user/controller/UserController.class
 com/ecommerce/user/config/SecurityConfig.class

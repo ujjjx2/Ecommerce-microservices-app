@@ -34,7 +34,7 @@ public class UserController {
         return userService.registerUser(user)
                 .<ResponseEntity<?>>map(u -> ResponseEntity.status(HttpStatus.CREATED).body(u))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.CONFLICT)
-                        .body(Map.of("error", "Email already exists")));
+                        .body(Map.of("message", "Email already exists")));
     }
 
     @PostMapping("/login")
@@ -45,7 +45,7 @@ public class UserController {
         return userService.loginUser(email, password)
                 .<ResponseEntity<?>>map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body(Map.of("error", "Invalid credentials")));
+                        .body(Map.of("message", "Invalid credentials")));
     }
 
     @PutMapping("/{id}")
