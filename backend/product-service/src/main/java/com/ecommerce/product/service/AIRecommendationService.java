@@ -19,13 +19,18 @@ public class AIRecommendationService {
     private final String apiKey;
     
     public AIRecommendationService() {
-        this.apiKey = System.getenv("GEMINI_API_KEY");
+        // Check for GOOGLE_API_KEY first (standard), then fall back to GEMINI_API_KEY
+        String key = System.getenv("GOOGLE_API_KEY");
+        if (key == null || key.isEmpty()) {
+            key = System.getenv("GEMINI_API_KEY");
+        }
+        this.apiKey = key;
     }
 
     public Map<String, Object> analyzeProduct(Product product) throws Exception {
         if (apiKey == null || apiKey.isEmpty()) {
-            System.err.println("ERROR: GEMINI_API_KEY environment variable is not set");
-            throw new IllegalStateException("AI recommendation service is not configured");
+            System.err.println("ERROR: GOOGLE_API_KEY or GEMINI_API_KEY environment variable is not set");
+            throw new IllegalStateException("AI recommendation service is not configured. Please set GOOGLE_API_KEY or GEMINI_API_KEY environment variable.");
         }
 
         String prompt = String.format(
