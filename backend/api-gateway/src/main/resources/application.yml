@@ -9,7 +9,10 @@ spring:
       globalcors:
         cors-configurations:
           '[/**]':
-            allowedOrigins: "*"
+            allowedOrigins:
+              - "https://ecommerce-microservices-app.onrender.com"
+              - "http://localhost:5000"
+              - "http://127.0.0.1:5000"
             allowedMethods:
               - GET
               - POST
@@ -18,19 +21,19 @@ spring:
               - PATCH
               - OPTIONS
             allowedHeaders: "*"
-            allowCredentials: false
+            allowCredentials: true
       routes:
         - id: product-service
-          uri: https://product-service-cvrs.onrender.com
+          uri: ${PRODUCT_SERVICE_URL:http://localhost:8081}
           predicates:
             - Path=/api/products/**
             
         - id: order-service
-          uri: https://order-service-okjq.onrender.com
+          uri: ${ORDER_SERVICE_URL:http://localhost:8082}
           predicates:
             - Path=/api/orders/**
             
         - id: user-service
-          uri: https://user-service-1mgh.onrender.com
+          uri: ${USER_SERVICE_URL:http://localhost:8083}
           predicates:
             - Path=/api/users/**

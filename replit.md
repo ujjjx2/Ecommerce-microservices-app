@@ -5,6 +5,27 @@ A full-stack e-commerce platform built with Java Spring Boot microservices on th
 
 ## Recent Changes
 
+### October 26, 2025 - Render Deployment Configuration
+- **Environment-Aware Configuration**: API Gateway now uses environment variables with intelligent defaults
+  - Local development: Routes to localhost services (http://localhost:8081, 8082, 8083)
+  - Production (Render): Routes to deployed services via environment variables
+  - Environment variables: `PRODUCT_SERVICE_URL`, `ORDER_SERVICE_URL`, `USER_SERVICE_URL`
+- **Render URLs**: Configured for deployment to the following Render services
+  - Product Service: https://product-service-cvrs.onrender.com
+  - Order Service: https://order-service-okjq.onrender.com
+  - User Service: https://user-service-1mgh.onrender.com
+  - API Gateway: https://api-gateway-70ls.onrender.com
+  - Frontend: https://ecommerce-microservices-app.onrender.com
+- **CORS Security Enhancement**: Updated CORS configuration to only allow specific origins
+  - Allows Render production domain (https://ecommerce-microservices-app.onrender.com)
+  - Allows localhost for local development (http://localhost:5000, http://127.0.0.1:5000)
+  - Changed allowCredentials to true for proper session handling
+- **Frontend Environment Files**: Created separate environment files for development and production
+  - `.env.development`: Uses Vite proxy for local development (empty VITE_API_URL)
+  - `.env.production`: Uses API Gateway Render URL (https://api-gateway-70ls.onrender.com)
+- **Deployment Documentation**: Created `RENDER_ENV_VARIABLES.md` with complete deployment checklist
+- **Works Everywhere**: Application seamlessly works in both local (Replit) and production (Render) environments
+
 ### October 25, 2025 - Cart & Checkout Page Redesign
 - **Modern Cart UI**: Complete redesign of the cart page with dark mode support
   - Glass-morphism effects with backdrop blur and gradient borders
