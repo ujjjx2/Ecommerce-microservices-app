@@ -19,6 +19,22 @@ public class AIRecommendationController {
     @Autowired
     private AIRecommendationService aiRecommendationService;
 
+    @GetMapping("/ai/health")
+    public ResponseEntity<?> checkAIHealth() {
+        boolean configured = aiRecommendationService.isConfigured();
+        String googleKey = System.getenv("GOOGLE_API_KEY");
+        String geminiKey = System.getenv("GEMINI_API_KEY");
+        
+        return ResponseEntity.ok(Map.of(
+            "configured", configured,
+            "status", configured ? "AI service is ready" : "AI service not configured - API key missing",
+            "environment_variables", Map.of(
+                "GOOGLE_API_KEY", googleKey != null && !googleKey.isEmpty() ? "SET (length: " + googleKey.length() + ")" : "NOT SET",
+                "GEMINI_API_KEY", geminiKey != null && !geminiKey.isEmpty() ? "SET (length: " + geminiKey.length() + ")" : "NOT SET"
+            )
+        ));
+    }
+
     @GetMapping("/{id}/ai-recommendation")
     public ResponseEntity<?> getAIRecommendation(@PathVariable Long id) {
         return productService.getProductById(id)

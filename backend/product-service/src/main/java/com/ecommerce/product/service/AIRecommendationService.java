@@ -22,9 +22,22 @@ public class AIRecommendationService {
         // Check for GOOGLE_API_KEY first (standard), then fall back to GEMINI_API_KEY
         String key = System.getenv("GOOGLE_API_KEY");
         if (key == null || key.isEmpty()) {
+            System.out.println("GOOGLE_API_KEY not found, checking GEMINI_API_KEY...");
             key = System.getenv("GEMINI_API_KEY");
         }
         this.apiKey = key;
+        
+        // Log the status without exposing the actual key
+        if (apiKey != null && !apiKey.isEmpty()) {
+            System.out.println("✓ AI Service initialized: API key loaded successfully (length: " + apiKey.length() + ")");
+        } else {
+            System.err.println("✗ AI Service initialized: NO API KEY FOUND!");
+            System.err.println("  Please set either GOOGLE_API_KEY or GEMINI_API_KEY environment variable");
+        }
+    }
+    
+    public boolean isConfigured() {
+        return apiKey != null && !apiKey.isEmpty();
     }
 
     public Map<String, Object> analyzeProduct(Product product) throws Exception {
